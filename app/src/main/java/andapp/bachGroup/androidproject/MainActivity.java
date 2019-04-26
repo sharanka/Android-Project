@@ -1,8 +1,11 @@
 package andapp.bachGroup.androidproject;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,24 +16,40 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private RecyclerView theRecyclerView;
+    private RecyclerView.Adapter theAdapter;
+    private RecyclerView.LayoutManager theLayoutManager;
+    private Random random;
+
+    private ArrayList<Movie> intArray;
+    private ArrayList<Image> imageArrayList;
+    private Thread thread;
+
+    private volatile boolean isThreadRunning;
+    private Retrofit retrofit;
+    private String url = "https://api.themoviedb.org/";
+    private WebService movieService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        random = new Random();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -40,8 +59,53 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
+
+        movieService = retrofit.create(WebService.class);
+
+       theRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        theRecyclerView.setHasFixedSize(true);
+
+        theLayoutManager = new GridLayoutManager(this, 2);
+        theRecyclerView.setLayoutManager(theLayoutManager);
+
+        intArray = new ArrayList<>();
+
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Call<List<Movie>> movies = movieService.loadMovies();
+                try {
+                    intArray.addAll(movies.execute().body());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        theAdapter = new MovieAdapter(intArray);
+        theRecyclerView.setAdapter(theAdapter);
+
+
+
     }
 
+    private ArrayList<Integer> generateIntegerArrayList(int amount){
+        ArrayList<Integer> radom = new ArrayList<>();
+        for (int i = 0; i<amount; i++){
+            radom.add(random.nextInt(10000));
+        }
+        return radom;
+    }
+
+    private ArrayList<Image> fetchImages(){
+        ArrayList<Image> temp = new ArrayList<>();
+
+
+        return temp;
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
