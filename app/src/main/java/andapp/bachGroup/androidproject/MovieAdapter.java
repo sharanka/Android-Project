@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
-    private ArrayList<Integer> theIntArray;
+    private ArrayList<Movie> theIntArray;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView theTextView;
@@ -24,7 +24,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
     }
 
-    public MovieAdapter(ArrayList<Integer> intArray) {
+    public MovieAdapter(ArrayList<Movie> intArray) {
         theIntArray = intArray;
     }
 
@@ -55,7 +55,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         return theIntArray.size();
     }
     private void deleteItem(final int position, View v){
-        final int n = theIntArray.get(position);
 
     }
 }
