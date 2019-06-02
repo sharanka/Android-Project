@@ -8,6 +8,6 @@ import retrofit2.http.Query;
 
 public interface WebService {
 
-    @GET("discover/movie")
-    Call<List<Movie>> loadMovies();
+    @GET("/3/discover/movie?api_key=dbecaf5a0998ddf17402996f6f72cd32")
+    Call <Result> loadMovies();
 }

@@ -1,6 +1,7 @@
 package andapp.bachGroup.androidproject;
 
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,20 +21,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ASyncTaskResponse {
 
     private RecyclerView theRecyclerView;
     private RecyclerView.Adapter theAdapter;
     private RecyclerView.LayoutManager theLayoutManager;
     private Random random;
 
-    private ArrayList<Movie> intArray;
+    private ArrayList<Result> intArray;
     private ArrayList<Image> imageArrayList;
     private Thread thread;
 
@@ -42,11 +44,15 @@ public class MainActivity extends AppCompatActivity
     private String url = "https://api.themoviedb.org/";
     private WebService movieService;
 
+    private LoadMovieTask loadmovie = new LoadMovieTask();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         random = new Random();
+
+        loadmovie.aResponse = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,20 +79,35 @@ public class MainActivity extends AppCompatActivity
 
         intArray = new ArrayList<>();
 
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Call<List<Movie>> movies = movieService.loadMovies();
-                try {
-                    intArray.addAll(movies.execute().body());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-        theAdapter = new MovieAdapter(intArray);
-        theRecyclerView.setAdapter(theAdapter);
+        Result e = new Result();
+        List<Movie> movies = new ArrayList<>();
+        Movie m = new Movie();
+        m.setTitle("petra");
+        movies.add(m);
+        m.setTitle("benny");
+        movies.add(m);
+        e.setMovies(movies);
+        intArray.add(e);
+
+        //thread = new Thread(new Runnable() {
+          //  @Override
+            //public void run() {
+
+              //      Call<Result> movies = movieService.loadMovies();
+                //    try {
+        //      intArray.add(movies.execute().body());
+          //              System.out.println(intArray.get(0).toString());
+            //        } catch (IOException e) {
+              //          e.printStackTrace();
+
+               // }
+           // }
+      //  });
+       // thread.start();
+         theAdapter = new MovieAdapter(intArray);
+         theRecyclerView.setAdapter(theAdapter);
+        // theAdapter.notifyDataSetChanged();
+
 
 
 
@@ -161,5 +182,15 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void buttonClick(View view) {
+        loadmovie.execute(url);
+    }
+
+    @Override
+    public void response(ArrayList<Result> rc) {
+        intArray.addAll(rc);
+        theAdapter.notifyDataSetChanged();
     }
 }

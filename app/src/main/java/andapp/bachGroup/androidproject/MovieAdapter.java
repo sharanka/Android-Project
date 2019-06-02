@@ -9,9 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
-    private ArrayList<Movie> theIntArray;
+    private List<Movie> theIntArray;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView theTextView;
@@ -24,8 +25,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
     }
 
-    public MovieAdapter(ArrayList<Movie> intArray) {
-        theIntArray = intArray;
+    public MovieAdapter(ArrayList<Result> intArray) {
+        theIntArray = intArray.get(0).getMovies();
     }
 
     @NonNull
