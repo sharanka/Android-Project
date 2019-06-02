@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
+       // retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
 
-        movieService = retrofit.create(WebService.class);
+      //  movieService = retrofit.create(WebService.class);
 
        theRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         theRecyclerView.setHasFixedSize(true);
@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity
         Movie m = new Movie();
         m.setTitle("petra");
         movies.add(m);
-        m.setTitle("benny");
-        movies.add(m);
+      //  m.setTitle("benny");
+        //movies.add(m);
         e.setMovies(movies);
         intArray.add(e);
 
