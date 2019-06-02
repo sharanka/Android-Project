@@ -39,7 +39,6 @@ public class LoadMovieTask extends AsyncTask <String, Result, ArrayList>{
        } catch (IOException e) {
             e.printStackTrace();
        }
-        System.out.println(resultArrayList.get(0).getMovies().get(0).getTitle());
        return resultArrayList;
     }
 
@@ -50,8 +49,6 @@ public class LoadMovieTask extends AsyncTask <String, Result, ArrayList>{
 
     @Override
     protected void onPostExecute(ArrayList resultArrayList){
-        //theAdapter = new MovieAdapter(resultArrayList);
-        //theRecyclerView.setAdapter(theAdapter);
         aResponse.response(resultArrayList);
     }
 }

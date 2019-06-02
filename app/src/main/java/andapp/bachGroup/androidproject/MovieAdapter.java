@@ -26,13 +26,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     public MovieAdapter(ArrayList<Result> intArray) {
-
             theIntArray = new ArrayList<Movie>();
         for (Result result: intArray) {
             theIntArray.addAll(result.getMovies());
         }
-          //  theIntArray.addAll(intArray.get(0).getMovies());
-
     }
 
     @NonNull
@@ -56,12 +53,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         });
     }
 
-
     @Override
     public int getItemCount() {
         return theIntArray.size();
     }
+
     private void deleteItem(final int position, View v){
 
+    }
+
+    public void addItem(Result result){
+        for (Movie movie:result.getMovies()) {
+            theIntArray.add(movie);
+        }
+        notifyDataSetChanged();
     }
 }

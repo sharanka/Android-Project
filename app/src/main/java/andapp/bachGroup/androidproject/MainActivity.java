@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ASyncTaskResponse {
 
     private RecyclerView theRecyclerView;
-    private RecyclerView.Adapter theAdapter;
+    private MovieAdapter theAdapter;
     private RecyclerView.LayoutManager theLayoutManager;
     private Random random;
 
@@ -66,11 +66,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-       // retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
-
-      //  movieService = retrofit.create(WebService.class);
-
        theRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         theRecyclerView.setHasFixedSize(true);
 
@@ -84,33 +79,11 @@ public class MainActivity extends AppCompatActivity
         Movie m = new Movie();
         m.setTitle("petra");
         movies.add(m);
-      //  m.setTitle("benny");
-        //movies.add(m);
         e.setMovies(movies);
         intArray.add(e);
 
-        //thread = new Thread(new Runnable() {
-          //  @Override
-            //public void run() {
-
-              //      Call<Result> movies = movieService.loadMovies();
-                //    try {
-        //      intArray.add(movies.execute().body());
-          //              System.out.println(intArray.get(0).toString());
-            //        } catch (IOException e) {
-              //          e.printStackTrace();
-
-               // }
-           // }
-      //  });
-       // thread.start();
          theAdapter = new MovieAdapter(intArray);
          theRecyclerView.setAdapter(theAdapter);
-        // theAdapter.notifyDataSetChanged();
-
-
-
-
     }
 
     private ArrayList<Integer> generateIntegerArrayList(int amount){
@@ -178,7 +151,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -191,7 +163,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void response(ArrayList<Result> rc) {
-        intArray.addAll(rc);
-        theAdapter.notifyDataSetChanged();
+        for (Result result: rc) {
+            theAdapter.addItem(result);
+        }
     }
 }
