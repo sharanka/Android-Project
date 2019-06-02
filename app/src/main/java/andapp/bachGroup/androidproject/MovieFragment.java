@@ -43,8 +43,7 @@ public class MovieFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.movie_view,container,false);
-        Log.i("fragment_event", "MovieListFragment onCreateView");
+        View v = inflater.inflate(R.layout.fragmentview, container,false);
         return v;
     }
 

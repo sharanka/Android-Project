@@ -1,5 +1,8 @@
 package andapp.bachGroup.androidproject;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity
        // Bitmap bitmap = BitmapFactory.decodeResource(this.getApplicationContext().getResources(),-700017);
         //bitmapList.add(bitmap);
 
-         theAdapter = new MovieAdapter(intArray);
+         theAdapter = new MovieAdapter(intArray, getApplicationContext());
          theRecyclerView.setAdapter(theAdapter);
     }
 
@@ -171,5 +174,12 @@ public class MainActivity extends AppCompatActivity
         for (Result result: rc) {
             theAdapter.addItem(result);
         }
+    }
+
+    public void switchContent(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content, fragment);
+
+        fragmentTransaction.commit();
     }
 }

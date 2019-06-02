@@ -1,9 +1,12 @@
 package andapp.bachGroup.androidproject;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +29,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     private String baseUrl = "https://image.tmdb.org/t/p/w200/";
     private List<Movie> theIntArray;
+    private Context context;
+    MovieFragment movieFragment = new MovieFragment();
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView theTextView;
@@ -38,8 +44,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
     }
 
-    public MovieAdapter(ArrayList<Result> intArray) {
+    public MovieAdapter(ArrayList<Result> intArray, Context context) {
             theIntArray = new ArrayList<Movie>();
+            this.context = context;
         for (Result result: intArray) {
             theIntArray.addAll(result.getMovies());
         }
@@ -63,7 +70,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         holder.theTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteItem(holder.getAdapterPosition(), view);
+                openFragment(holder.getAdapterPosition(), view);
             }
         });
     }
@@ -73,8 +80,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         return theIntArray.size();
     }
 
-    private void deleteItem(final int position, View v){
-
+    private void openFragment(final int position, View v){
+        MainActivity mainActivity = (MainActivity) context;
+        mainActivity.switchContent(movieFragment);
     }
 
     public void addItem(Result result){
