@@ -1,5 +1,7 @@
 package andapp.bachGroup.androidproject;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -30,7 +32,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     private String baseUrl = "https://image.tmdb.org/t/p/w200/";
     private List<Movie> theIntArray;
     private Context context;
-    MovieFragment movieFragment = new MovieFragment();
+
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -66,7 +68,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.theTextView.setText(theIntArray.get(position).toString());
         Picasso.get().load(baseUrl+theIntArray.get(position).getPosterPath()).fit().into(holder.theImageView);
-        System.out.println(baseUrl+theIntArray.get(position).getPosterPath());
         holder.theTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,8 +82,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     private void openFragment(final int position, View v){
-        MainActivity mainActivity = (MainActivity) context;
-        mainActivity.switchContent(movieFragment);
+        Fragment movieFragment = new MovieFragment();
+        AppCompatActivity appCompatActivity = (AppCompatActivity) v.getContext();
+        Bundle bundle = new Bundle();
+        bundle.putString("title", theIntArray.get(position).getTitle());
+        bundle.putString("description", theIntArray.get(position).getOverview());
+        bundle.putString("image",baseUrl+theIntArray.get(position).getPosterPath());
+        movieFragment.setArguments(bundle);
+
+        appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.content, movieFragment).addToBackStack(null).commit();
     }
 
     public void addItem(Result result){

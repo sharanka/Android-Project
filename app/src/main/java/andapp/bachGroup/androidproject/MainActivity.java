@@ -79,35 +79,12 @@ public class MainActivity extends AppCompatActivity
 
         intArray = new ArrayList<>();
 
-       // Result e = new Result();
-       // List<Movie> movies = new ArrayList<>();
-       // Movie m = new Movie();
-       //  m.setTitle("petra");
-       // movies.add(m);
-        //e.setMovies(movies);
-        //intArray.add(e);
-
-       // Bitmap bitmap = BitmapFactory.decodeResource(this.getApplicationContext().getResources(),-700017);
-        //bitmapList.add(bitmap);
-
          theAdapter = new MovieAdapter(intArray, getApplicationContext());
          theRecyclerView.setAdapter(theAdapter);
+        loadmovie.execute(url);
+
     }
 
-    private ArrayList<Integer> generateIntegerArrayList(int amount){
-        ArrayList<Integer> radom = new ArrayList<>();
-        for (int i = 0; i<amount; i++){
-            radom.add(random.nextInt(10000));
-        }
-        return radom;
-    }
-
-    private ArrayList<Image> fetchImages(){
-        ArrayList<Image> temp = new ArrayList<>();
-
-
-        return temp;
-    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -164,10 +141,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void buttonClick(View view) {
-        loadmovie.execute(url);
-        loadmovie = new LoadMovieTask();
-    }
+
 
     @Override
     public void response(ArrayList<Result> rc) {
@@ -182,4 +156,5 @@ public class MainActivity extends AppCompatActivity
 
         fragmentTransaction.commit();
     }
+
 }
