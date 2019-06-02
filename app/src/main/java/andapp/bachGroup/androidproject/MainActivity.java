@@ -1,5 +1,7 @@
 package andapp.bachGroup.androidproject;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -74,13 +76,16 @@ public class MainActivity extends AppCompatActivity
 
         intArray = new ArrayList<>();
 
-        Result e = new Result();
-        List<Movie> movies = new ArrayList<>();
-        Movie m = new Movie();
-        m.setTitle("petra");
-        movies.add(m);
-        e.setMovies(movies);
-        intArray.add(e);
+       // Result e = new Result();
+       // List<Movie> movies = new ArrayList<>();
+       // Movie m = new Movie();
+       //  m.setTitle("petra");
+       // movies.add(m);
+        //e.setMovies(movies);
+        //intArray.add(e);
+
+       // Bitmap bitmap = BitmapFactory.decodeResource(this.getApplicationContext().getResources(),-700017);
+        //bitmapList.add(bitmap);
 
          theAdapter = new MovieAdapter(intArray);
          theRecyclerView.setAdapter(theAdapter);

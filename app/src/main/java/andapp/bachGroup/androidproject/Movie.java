@@ -1,6 +1,9 @@
 package andapp.bachGroup.androidproject;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Movie {
+    @SerializedName("poster_path")
     private String posterPath;
     private boolean adult;
     private String overview;
@@ -12,6 +15,7 @@ public class Movie {
     private float popularity;
     private float voteAverage;
     private int[] genreID;
+
 
     public String getPosterPath() {
         return posterPath;
