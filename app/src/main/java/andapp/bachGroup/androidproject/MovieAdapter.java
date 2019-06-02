@@ -26,9 +26,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     public MovieAdapter(ArrayList<Result> intArray) {
-        for(Result result : intArray) {
+
+            theIntArray = new ArrayList<Movie>();
+        for (Result result: intArray) {
             theIntArray.addAll(result.getMovies());
         }
+          //  theIntArray.addAll(intArray.get(0).getMovies());
+
     }
 
     @NonNull

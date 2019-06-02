@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity
 
     public void buttonClick(View view) {
         loadmovie.execute(url);
+        loadmovie = new LoadMovieTask();
     }
 
     @Override

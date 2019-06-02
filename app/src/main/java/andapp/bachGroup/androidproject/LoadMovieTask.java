@@ -32,24 +32,14 @@ public class LoadMovieTask extends AsyncTask <String, Result, ArrayList>{
         movieService = retrofit.create(WebService.class);
         resultArrayList = new ArrayList<>();
         Call<Result> movies = movieService.loadMovies();
-        movies.enqueue(new Callback<Result>() {
-            @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                resultArrayList.add(response.body());
-            }
 
-            @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-                Log.d("Fail", t.getMessage());
-            }
-        });
-       // try {
-       //     resultArrayList.add(movies.execute().body());
+       try {
+            resultArrayList.add(movies.execute().body());
 
-   //     } catch (IOException e) {
-     //       e.printStackTrace();
-       // }
-       // System.out.println(resultArrayList.get(0));
+       } catch (IOException e) {
+            e.printStackTrace();
+       }
+        System.out.println(resultArrayList.get(0).getMovies().get(0).getTitle());
        return resultArrayList;
     }
 

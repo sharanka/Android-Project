@@ -1,5 +1,7 @@
 package andapp.bachGroup.androidproject;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Result {
@@ -7,6 +9,7 @@ public class Result {
     private int total_results;
     private int total_pages;
 
+    @SerializedName("results")
     private List<Movie> movies;
 
     public int getPage() {
